@@ -7,14 +7,12 @@
 - [Aether AI master catalog](https://github.com/Monupatel62/aether-ai-platform/blob/main/docs/REPOSITORY_CATALOG.md)
 - [AI DIAL Core](https://github.com/epam/ai-dial-core)
 - [AI DIAL Chat architecture](https://github.com/epam/ai-dial-chat/blob/development/docs/architecture.md)
-- [WoHo AI DevKit](https://github.com/Monupatel62/woho-ai-devkit) — separate upstream dependency; do not modify it as part of Aether AI.
 
 ## Repository-specific research notes
 
 - [Aether AI master catalog](../REPOSITORY_CATALOG.md)
 - [AI DIAL Core](https://github.com/epam/ai-dial-core)
 - [AI DIAL Chat architecture](https://github.com/epam/ai-dial-chat/blob/development/docs/architecture.md)
-- [WoHo AI DevKit](https://github.com/Monupatel62/woho-ai-devkit)
 
 All external projects are references or candidate dependencies only. Verify exact version, license, dependency tree, and security posture before reuse.
 
