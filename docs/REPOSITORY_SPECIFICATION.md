@@ -1,6 +1,6 @@
 # Repository specification: aether-ai-deployment
 
-**Status:** Documentation baseline copied from the Aether AI master specification. Implementation status must be verified separately.
+**Status:** Repository exists; documentation-only on the inspected `main` branch. No application implementation is present in the audited tree.
 
 ## Mission
 
@@ -8,7 +8,7 @@ Container packaging, environment manifests, release procedures, rollback, and de
 
 ## Dependencies and connections
 
-Infrastructure, platform, and services being deployed.
+aether-ai-infrastructure and reviewed, versioned Aether release artifacts.
 
 ## Owned capabilities
 
