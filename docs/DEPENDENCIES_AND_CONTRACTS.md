@@ -4,7 +4,13 @@
 
 ## Direct dependencies
 
-Infrastructure, platform, and services being deployed.
+- `aether-ai-infrastructure`: reviewed, versioned infrastructure modules and environment foundations.
+- Versioned release artifacts from components being deployed.
+- Approved deployment-time configuration and secret-injection mechanisms.
+
+## Control-plane references and non-dependencies
+
+`aether-ai-platform` is the documentation/control plane for catalogues, architecture decisions and repository specifications. It is not a runtime package dependency of Deployment. Deployment may reference its published documentation and accepted ADRs as governance inputs, but must not import Platform application code.
 
 ## Owned interfaces
 
@@ -16,7 +22,6 @@ Build provenance, image/version policy, environment matrix, secrets injected at 
 - Document limits, timeouts, retry behavior, idempotency, cancellation, and error handling where relevant.
 - Preserve correlation IDs across API, agent, tool, queue, and provider operations.
 - Document operational signals and failure recovery, not only the happy path.
-
 - Use versioned, typed schemas and stable safe error categories.
 - Set explicit payload, time, concurrency and retry bounds for every external boundary.
 - Document idempotency and duplicate-delivery semantics before enabling side effects.
