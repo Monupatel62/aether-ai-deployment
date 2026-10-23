@@ -1,5 +1,6 @@
 const ID = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
 const DIGEST = /^sha256:[a-f0-9]{64}$/;
+const IMAGE_REF = /^[a-z0-9][a-z0-9./:_-]{0,254}@sha256:[a-f0-9]{64}$/;
 export class DeploymentManifestError extends Error {
   constructor(code, message = "Deployment manifest is invalid") { super(message); this.name = "DeploymentManifestError"; this.code = code; }
 }
@@ -13,10 +14,10 @@ export function validateReleaseManifest(input) {
   const services = input.services.map((service) => {
     if (!isRecord(service) || !validId(service.name) || seen.has(service.name)) throw new DeploymentManifestError("invalid_service");
     seen.add(service.name);
-    if (typeof service.image !== "string" || !service.image.includes("@") || !DIGEST.test(service.image.split("@").at(-1))) throw new DeploymentManifestError("image_not_immutable");
+    if (typeof service.image !== "string" || !IMAGE_REF.test(service.image) || !DIGEST.test(service.image.split("@").at(-1))) throw new DeploymentManifestError("image_not_immutable");
     if (!Array.isArray(service.requiredEnv) || service.requiredEnv.some((v) => typeof v !== "string" || !/^[A-Z][A-Z0-9_]{0,127}$/.test(v)) || new Set(service.requiredEnv).size !== service.requiredEnv.length) throw new DeploymentManifestError("invalid_required_env");
     if (!Array.isArray(service.secretRefs) || service.secretRefs.some((v) => typeof v !== "string" || !/^secretref:[A-Za-z0-9._/-]{1,200}$/.test(v))) throw new DeploymentManifestError("invalid_secret_refs");
-    if (!isRecord(service.healthCheck) || typeof service.healthCheck.path !== "string" || !service.healthCheck.path.startsWith("/") || service.healthCheck.path.startsWith("//")
+    if (!isRecord(service.healthCheck) || typeof service.healthCheck.path !== "string" || !/^\/[A-Za-z0-9._~!$&()*+,;=:@%/-]*$/.test(service.healthCheck.path) || service.healthCheck.path.startsWith("//") || service.healthCheck.path.includes("..")
       || !Number.isSafeInteger(service.healthCheck.timeoutMs) || service.healthCheck.timeoutMs < 100 || service.healthCheck.timeoutMs > 120_000) throw new DeploymentManifestError("invalid_health_check");
     return Object.freeze({ name: service.name, image: service.image, requiredEnv: Object.freeze([...service.requiredEnv]), secretRefs: Object.freeze([...service.secretRefs]), healthCheck: Object.freeze({ path: service.healthCheck.path, timeoutMs: service.healthCheck.timeoutMs }) });
   });
@@ -29,7 +30,7 @@ export function checkEnvironmentRequirements(manifest, environment, secretRefere
   const findings = [];
   for (const service of manifest.services) {
     for (const name of service.requiredEnv) {
-      if (!(name in environment) || environment[name] === undefined || environment[name] === null || environment[name] === "") findings.push({ service: service.name, kind: "environment", name, ready: false });
+      if (!Object.hasOwn(environment, name) || environment[name] === undefined || environment[name] === null || environment[name] === "") findings.push({ service: service.name, kind: "environment", name, ready: false });
     }
     for (const reference of service.secretRefs) {
       let exists = false;
