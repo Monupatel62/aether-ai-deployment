@@ -12,7 +12,11 @@ Build provenance, image/version policy, environment matrix, secrets injected at 
 
 ## Dependencies and connections
 
-Infrastructure, platform, and services being deployed.
+- `aether-ai-infrastructure`: reviewed infrastructure modules and environment foundations.
+- Versioned, reviewed release artifacts from components being deployed.
+- Approved runtime configuration and secret-injection mechanisms.
+
+`aether-ai-platform` supplies architecture decisions, repository specifications and governance documentation only. It is not a runtime package dependency of Deployment. A repository boundary does not automatically imply a separate deployed service.
 
 ## Data and trust boundaries
 
