@@ -32,3 +32,17 @@ test("fails readiness closed if secret lookup throws", () => {
   assert.equal(result.ready, false);
   assert.equal(result.findings.length, 2);
 });
+
+
+test("rejects command-like image references and unsafe health paths", () => {
+  assert.throws(() => validateReleaseManifest({ ...manifest, services: [{ ...manifest.services[0], image: "registry.example.test/aether/api;echo@sha256:" + "a".repeat(64) }] }), (e) => e.code === "image_not_immutable");
+  assert.throws(() => validateReleaseManifest({ ...manifest, services: [{ ...manifest.services[0], healthCheck: { path: "/health?next=//external", timeoutMs: 1000 } }] }), (e) => e.code === "invalid_health_check");
+});
+
+test("does not count inherited environment properties as configured", () => {
+  const valid = validateReleaseManifest(manifest);
+  const environment = Object.create({ DATABASE_URL: "inherited-value" });
+  const result = checkEnvironmentRequirements(valid, environment, () => true);
+  assert.equal(result.ready, false);
+  assert.equal(result.findings[0].name, "DATABASE_URL");
+});
