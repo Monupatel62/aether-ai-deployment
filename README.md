@@ -2,7 +2,7 @@
 
 Container packaging, environment manifests, release procedures, rollback, and deployment documentation.
 
-**Status:** Documentation foundation only. This repository does not yet claim working implementation, deployment, or production readiness.
+**Status:** Initial release-manifest validation utility is in review. No deployment executor or production deployment is implemented.
 
 ## Documentation
 
@@ -15,6 +15,10 @@ Container packaging, environment manifests, release procedures, rollback, and de
 - [Research and licenses](docs/RESEARCH_AND_LICENSES.md)
 - [Engineering standard](docs/ENGINEERING_STANDARD.md)
 - [Work log](docs/WORKLOG.md)
+
+## Initial implementation
+
+The draft package validates versioned release metadata, artifact and SBOM digest formats, source commit identifiers, migration IDs, target environments, and a required approval reference for production targets. It does not verify the artifacts or SBOM contents, establish provenance/signatures, build images, or deploy. Production approvals must be verified by the actual protected release workflow.
 
 ## Project-wide references
 
