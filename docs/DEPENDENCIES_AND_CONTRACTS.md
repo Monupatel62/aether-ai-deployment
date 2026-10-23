@@ -4,7 +4,7 @@
 
 ## Direct dependencies
 
-Infrastructure, platform, and services being deployed.
+aether-ai-infrastructure modules and versioned release artifacts/manifests from components being deployed. The platform repository is documentation/control plane only and must not be a runtime dependency. Deployment consumes service artifacts and infrastructure interfaces; it must not import application domain logic.
 
 ## Owned interfaces
 
@@ -16,7 +16,6 @@ Build provenance, image/version policy, environment matrix, secrets injected at 
 - Document limits, timeouts, retry behavior, idempotency, cancellation, and error handling where relevant.
 - Preserve correlation IDs across API, agent, tool, queue, and provider operations.
 - Document operational signals and failure recovery, not only the happy path.
-
 - Use versioned, typed schemas and stable safe error categories.
 - Set explicit payload, time, concurrency and retry bounds for every external boundary.
 - Document idempotency and duplicate-delivery semantics before enabling side effects.
